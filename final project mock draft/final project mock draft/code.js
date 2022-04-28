@@ -1,21 +1,17 @@
-
-//startWebRequest("https://data.nasdaq.com/api/v3/datasets/WIKI/FB/data.json?api_key=-qiumoLa9PySr4UwypEy", function(status, type, content) {
-//var jsonContent = JSON.parse(content);
-//console.log(jsonContent);
-
-//);
-
-// math
+//This simulates a markov process, as only the present value of variable is relevant for predicting the future.
 
 var stockprice;
 var stockticker;
 var time;
-var counter;
+var counter = 0;
+var sim={}; // for recording simulation results
 
   onEvent("Calculate", "click", function( ) {
-    stockprice = getNumber("stockpriceinput");
+    createRecord("User Input", {stockprice:getNumber("stockpriceinput")}, function(record) {
+      sim.stockprice = getNumber("stockpriceinput");
+    });
     time = getNumber("timeinput"); 
-    for (var j = 0; j < 20; j++) {
+    for (var j = 0; j < 10; j++) { // this turns the function into a montecarlo simulation
       stockprice = getNumber("stockpriceinput");
       for (var i = 0; i < time*60 ; i++) {
         var stockticker = getText("stocktickerinput"); 
@@ -25,17 +21,16 @@ var counter;
         stockprice += movement;
         
 }
-counter++; // need a counter to keep track of iterations
+// need a counter to keep track of iterations
+      counter = counter + 1;
       console.log("simulation " + counter + " price is " + stockprice);
     }//multiply by 60 to make it per minute
     
       // goals for tmrw:
-      // fix counter problem
-      // add record data so data can be pulled
+      // finish up the data collection from users
       // start collecting and storing data from users
       
     
        
   });
   
-// my stockprice variable is not updating, how can I fix that?
